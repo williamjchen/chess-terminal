@@ -99,7 +99,7 @@ public:
             std::cout << buildChessRow(i) << std::endl;
         }
         std::cout << buildBorderRow(9) << std::endl;
-        std::cout << "    A   B   C   D   E   F   G   H" << std::endl;
+        std::cout << "    A   B   C   D   E   F   G   H" << std::endl << std::endl;
     }
 
     void move(int fromX, int fromY, int toX, int toY) {
