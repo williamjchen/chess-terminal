@@ -1,1 +1,2 @@
-# chess-terminal
+# Chess-Terminal
+Play Chess in your Terminal

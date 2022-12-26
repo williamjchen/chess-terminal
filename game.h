@@ -69,7 +69,7 @@ public:
         }
 
         std::stringstream ss;
-        ss << leftEdge;
+        ss << "  " << leftEdge;
         for (int i = 0; i < 7; i++) {
             ss << horiz << horiz << horiz << middle;
         }
@@ -80,6 +80,8 @@ public:
     // builds a chess row string
     std::string buildChessRow(int row) {
         std::string rowString = "";
+        rowString += std::to_string(8 - row);
+        rowString += " ";
         rowString += vert;
         for (int i = 0; i < 8; i++) {
             rowString += " ";
@@ -97,6 +99,7 @@ public:
             std::cout << buildChessRow(i) << std::endl;
         }
         std::cout << buildBorderRow(9) << std::endl;
+        std::cout << "    A   B   C   D   E   F   G   H" << std::endl;
     }
 
     void move(int fromX, int fromY, int toX, int toY) {
