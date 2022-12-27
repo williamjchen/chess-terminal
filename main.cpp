@@ -2,7 +2,7 @@
 #include "game.h"
 
 int main() {
-    Game game(3);
+    Game game(1, true);
     game.printBoard();
     return 0;
 }

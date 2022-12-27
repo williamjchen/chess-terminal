@@ -5,6 +5,8 @@
 
 class Game {
 private:
+    bool haveLabels = true;
+
     // maps the piece to the unicode character
     std::map<std::string, std::string> pieces = {
                                 {"R", "♜"}, 
@@ -53,6 +55,11 @@ public:
 
     Game(int padding) : padding(padding) {};
 
+    Game(bool haveLabels) : haveLabels(haveLabels), padding(1) {};
+
+    Game(int padding, bool haveLabels) : haveLabels(haveLabels), padding(padding) {};
+
+
     // builds a border row string
     std::string buildBorderRow(int row) {
         std::string leftEdge, middle, rightEdge;
@@ -76,7 +83,8 @@ public:
         }
 
         std::stringstream ss;
-        ss << "  " << leftEdge;
+        if (haveLabels) ss << "  ";
+        ss << leftEdge;
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < padding*2 + 1; j++) {
                 ss << horiz;
@@ -93,8 +101,10 @@ public:
     // builds a chess row string
     std::string buildChessRow(int row) {
         std::string rowString = "";
-        rowString += std::to_string(8 - row);
-        rowString += " ";
+        if (haveLabels) {
+            rowString += std::to_string(8 - row);
+            rowString += " ";
+        }
         rowString += vert;
         for (int i = 0; i < 8; i++) {
             rowString += std::string(padding, ' ');
@@ -106,12 +116,10 @@ public:
     }
 
     std::string buildPaddingRow(int row) {
-        if (padding == 1) {
-            return "";
-        }
+        if (padding == 1) return "";
 
         std::string rowString = "";
-        rowString += "  ";
+        if(haveLabels) rowString += "  ";
         rowString += vert;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < padding*2+1; j++) {
@@ -137,7 +145,8 @@ public:
         }
         std::cout << buildBorderRow(9) << std::endl;
 
-        std::string columnLabel = std::string(2, ' ');
+        if (!haveLabels) return;
+        std::string columnLabel = "  ";
         std::string columnLetters[8] = {"A", "B", "C", "D", "E", "F", "G", "H"};
         for(int i = 0; i < 8; i++) {
             columnLabel += std::string(padding+1, ' ');
