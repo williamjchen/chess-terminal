@@ -4,16 +4,21 @@
 int main() {
     Game game(1, true);
     game.printBoard();
+    int x, y;
+    std::string dest;
+    std::cin >> x >> y >> dest;
+    game.move(x, y, dest);
+    game.printBoard();
     return 0;
 }
 
 // TODO:
-// - game config (have/don't have labels, custom pieces padding)
-// - test move and input move pieces
+// - move pieces chess notation
 // - test out padding around gameboard
 // - valid movies
 
 // TODO:- long term
+// - play against yourself
 // - chess engine as opponenet (stockfish + own)
 // - lichess
 // - other users

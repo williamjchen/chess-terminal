@@ -48,6 +48,18 @@ private:
     std::string horiz = "─";
     std::string vert = "│";
 
+    // maps chess column to index
+    std::map<char, int> colMap = {
+        {'a', 0},
+        {'b', 1},
+        {'c', 2},
+        {'d', 3},
+        {'e', 4},
+        {'f', 5},
+        {'g', 6},
+        {'h', 7}
+    };
+
     int padding;
 
 public:
@@ -157,8 +169,20 @@ public:
         std::cout << columnLabel << std::endl << std::endl;
     }
 
-    void move(int fromX, int fromY, int toX, int toY) {
-        board[toX][toY] = board[fromX][fromY];
+    // moves chece pieces using chess notation
+    void move(int fromX, int fromY, std::string destination) {
+        std::string piece = "P";
+        int row, col;
+        if (destination.length() == 3) {
+            piece = destination.substr(0,0);
+            col = destination[1] - 'a';
+            row = 8 - (destination[2] - '0');
+        } else {
+            col = destination[0] - 'a';
+            row = 8 - (destination[1] - '0');
+        }
+        
+        board[row][col] = board[fromX][fromY];
         board[fromX][fromY] = ' ';
     }
 };
