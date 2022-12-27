@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <string>
 
 class Game {
 private:
@@ -45,7 +46,13 @@ private:
     std::string horiz = "─";
     std::string vert = "│";
 
+    int padding;
+
 public:
+    Game() : padding(1) {};
+
+    Game(int padding) : padding(padding) {};
+
     // builds a border row string
     std::string buildBorderRow(int row) {
         std::string leftEdge, middle, rightEdge;
@@ -71,9 +78,15 @@ public:
         std::stringstream ss;
         ss << "  " << leftEdge;
         for (int i = 0; i < 7; i++) {
-            ss << horiz << horiz << horiz << middle;
+            for (int j = 0; j < padding*2 + 1; j++) {
+                ss << horiz;
+            }
+            ss << middle;
         }
-        ss << horiz << horiz << horiz << rightEdge;
+        for (int j = 0; j < padding*2 + 1; j++) {
+                ss << horiz;
+        }
+        ss << rightEdge;
         return ss.str();
     }
 
@@ -84,22 +97,55 @@ public:
         rowString += " ";
         rowString += vert;
         for (int i = 0; i < 8; i++) {
-            rowString += " ";
+            rowString += std::string(padding, ' ');
             rowString += pieces[board[row][i]];
-            rowString += " ";
+            rowString += std::string(padding, ' ');
             rowString += vert;
         }
         return rowString;
+    }
+
+    std::string buildPaddingRow(int row) {
+        if (padding == 1) {
+            return "";
+        }
+
+        std::string rowString = "";
+        rowString += "  ";
+        rowString += vert;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < padding*2+1; j++) {
+                rowString += " ";
+            }
+            rowString += vert;
+        }
+
+        std::string out;
+        for (int i = 0; i < padding*0.4; i++) {
+            out = out + rowString + "\n";
+        }
+        return out;
     }
 
     void printBoard() {
         std::cout << "\033[2J\033[1;1H"; // Clear the screen
         for (int i = 0; i < 8; i++) {
             std::cout << buildBorderRow(i) << std::endl;
+            std::cout << buildPaddingRow(i);
             std::cout << buildChessRow(i) << std::endl;
+            std::cout << buildPaddingRow(i);
         }
         std::cout << buildBorderRow(9) << std::endl;
-        std::cout << "    A   B   C   D   E   F   G   H" << std::endl << std::endl;
+
+        std::string columnLabel = std::string(2, ' ');
+        std::string columnLetters[8] = {"A", "B", "C", "D", "E", "F", "G", "H"};
+        for(int i = 0; i < 8; i++) {
+            columnLabel += std::string(padding+1, ' ');
+            columnLabel += columnLetters[i];
+            columnLabel += std::string(padding, ' ');
+        }
+        columnLabel += std::string(padding*2+1, ' ');
+        std::cout << columnLabel << std::endl << std::endl;
     }
 
     void move(int fromX, int fromY, int toX, int toY) {
