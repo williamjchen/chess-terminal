@@ -2,19 +2,16 @@
 #include "game.h"
 
 int main() {
-    Game game(1, true);
-    game.printBoard();
+    Game game;
     int x, y;
     std::string dest;
     std::cin >> x >> y >> dest;
-    game.move(x, y, dest);
-    game.printBoard();
     return 0;
 }
 
 // TODO:
-// - move pieces chess notation
-// - test out padding around gameboard
+// - restructure as bitboard
+// - generate board from FEN
 // - valid movies
 
 // TODO:- long term
