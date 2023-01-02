@@ -8,7 +8,7 @@ Play Chess in your Terminal
 - valid moves
 - move your pieces
 
-### TODO:- long term
+### TODO: eventually
 - play against yourself
 - chess engine as opponenet (stockfish + own)
 - lichess

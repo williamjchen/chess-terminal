@@ -24,6 +24,11 @@ private:
     // black queen - 13
     // black king - 14
     std::string pieceToChar = " PNBRQK  pnbrqk";
+    int active; // 0 = white, 1 = black
+    int castleRights = 0; // 0 = no rights, 1 = white king, 2 = white queen, 4 = black king, 8 = black queen, 15 = all
+    int halfMoveClock;
+    int fullMoveNumber;
+    U64 enPassant = 0;
 public:
     Position() {loadPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");};
     Position(std::string fen) {loadPosition(fen);};
@@ -64,8 +69,40 @@ public:
             }
         }
         // 2. load active color
+        active = sections[1] == "w" ? 0 : 1;
+
         // 3. load castling availability
+        for (char c: sections[2]) {
+            switch (c) {
+                case 'K':
+                    castleRights |= 1 << 0;
+                    break;
+                case 'Q':
+                    castleRights |= 1 << 1;
+                    break;
+                case 'k':
+                    castleRights |= 1 << 2;
+                    break;
+                case 'q':
+                    castleRights |= 1 << 3;
+                    break;
+            }
+        }
+        
+        std::cout << castleRights << std::endl;
+
         // 4. load en passant target square
+        std::string enPassant = sections[3];
+        if (enPassant != "-") {
+            int rank = 8 - (enPassant[1] - '0');
+            int file = enPassant[0] - 'a' + 1;
+            enPassant = fileRankToIndex(rank, file); 
+        }
+
+        // 5. load halfmove clock
+        halfMoveClock = std::stoi(sections[4]);
+        // 6. load fullmove number
+        fullMoveNumber = std::stoi(sections[5]);
     }
 
     char pieceAtPosition(int rank, int file) {
