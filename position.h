@@ -84,7 +84,6 @@ public:
     }
 
     U64 fileRankToIndex(int rank, int file) {
-        //std::cout << rank << " " << file << " " << (1ULL << (64 - ((8 - rank) * 8 + (file - 1)) - 1)) << std::endl;
         return 1ULL << (64 - ((8 - rank) * 8 + (file - 1)) - 1);
     }
 

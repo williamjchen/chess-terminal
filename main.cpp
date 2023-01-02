@@ -9,14 +9,3 @@ int main() {
     //game.printBoard();
     return 0;
 }
-
-// TODO:
-// - restructure as bitboard
-// - generate board from FEN
-// - valid movies
-
-// TODO:- long term
-// - play against yourself
-// - chess engine as opponenet (stockfish + own)
-// - lichess
-// - other users
