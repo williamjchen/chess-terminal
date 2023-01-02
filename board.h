@@ -2,6 +2,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <vector>
 #include "piece.h"
 
 typedef uint64_t U64;
@@ -10,9 +11,6 @@ class Board {
 private:
     bool haveLabels = true;
     int padding;    
-
-    U64 WPawns, WKnight, WBishop, WRook, WQueen, WKing;
-    U64 BPawns, BKnight, BBishop, BRook, BQueen, BKing;
 
     // unicode characters to build border
     std::string upT = "┬";
@@ -35,33 +33,6 @@ public:
     Board(bool haveLabels) : haveLabels(haveLabels), padding(1) {};
 
     Board(int padding, bool haveLabels) : haveLabels(haveLabels), padding(padding) {};
-
-
-    void LoadPosition(std::string fen) {
-        std::vector<std::string> sections;
-        std::stringstream ss(fen);
-        std::string section;
-
-        while (getline(ss, section, ' ')) {
-            sections.push_back(section);
-        }
-
-        int row = 0, col = 0;
-        for (char c: sections[0]) {
-            if (c == '/'){
-                col = 0;
-                row++;
-                continue;
-            }
-
-            if (isdigit(c)) {
-                col += c - '0';
-            } else {
-                board[row*8 + col] = Piece(c);
-                col++;
-            }
-        }
-    }
 
     // builds a border row string
     std::string buildBorderRow(int row) {
