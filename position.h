@@ -53,17 +53,18 @@ public:
                 col += c - '0';
             } else {
                 int piece = pieceToChar.find(c);
-                int colour = piece & 0b1000; // or piece >> 3; // colour is int 0-1
+                int colour = piece >> 3;// colour is int 0-1
                 int type = piece & 0b0111; // type is int 1-6
 
                 int index = fileRankToIndex(8 - row, col + 1);
-                typeBB[colour] |= index;
-                colourBB[type - 1] |= index;
+                colourBB[colour] |= index;
+                typeBB[type - 1] |= index;
 
                 col++;
             }
         }
 
+        std::cout << colourBB[1] << std::endl;
         // 2. load active color
         // 3. load castling availability
         // 4. load en passant target square
@@ -85,11 +86,11 @@ public:
     }
 
     int fileRankToIndex(int rank, int file) {
-        return 1 << (64 - ((8 - rank) * 8 + (file - 1)) - 1);
+        return 1ULL << (64 - ((8 - rank) * 8 + (file - 1)) - 1);
     }
 
     int fileRankToIndex(int rank, char file) {
         int fileInt = file - 'A' + 1;
-        return 1 << (64 - ((8 - rank) * 8 + (fileInt - 1)) - 1);
+        return 1ULL << (64 - ((8 - rank) * 8 + (fileInt - 1)) - 1);
     }
 };
