@@ -3,15 +3,11 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "piece.h"
 
 typedef uint64_t U64;
 
 class Position {
 private:
-    bool haveLabels = true;
-    int padding;    
-
     U64 typeBB[6];
     U64 colourBB[2];
 
@@ -28,10 +24,12 @@ private:
     // black queen - 13
     // black king - 14
     std::string pieceToChar = " PNBRQK  pnbrqk";
-
 public:
+    Position() {loadPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");};
+    Position(std::string fen) {loadPosition(fen);};
+
     // loads FEN string position into bitboards
-    void LoadPosition(std::string fen) {
+    void loadPosition(std::string fen) {
         std::vector<std::string> sections;
         std::stringstream ss(fen);
         std::string section;
@@ -67,5 +65,21 @@ public:
         // 2. load active color
         // 3. load castling availability
         // 4. load en passant target square
+    }
+
+    char pieceAtPosition(int rank, char file) {
+        int f = file - 'A';
+        int index = (8 - rank) * 8 + f;
+
+        int piece = 0, colour = 0;
+        for (int i = 0; i < 6; i++) {
+            if (typeBB[i] & (1 << (64 - index + 1))) {
+                piece = i + 1;
+            }
+        }
+        colour = colourBB[0] & (1 << (64 - index + 1)) ? 0 : 1;
+
+        if (piece == 0) return ' ';
+        return pieceToChar[piece | (colour << 3)];
     }
 };

@@ -3,7 +3,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "piece.h"
 #include "position.h"
 
 typedef uint64_t U64;
@@ -12,6 +11,24 @@ class Board {
 private:
     bool haveLabels = true;
     int padding;    
+
+    Position pos;
+
+    std::map<char, std::string> pieces_unicode = {
+        {'R', "♜"}, 
+        {'N', "♞"}, 
+        {'B', "♝"}, 
+        {'Q', "♛"}, 
+        {'K', "♚"}, 
+        {'P', "♟"}, 
+        {'r', "♖"}, 
+        {'n', "♘"}, 
+        {'b', "♗"}, 
+        {'q', "♕"}, 
+        {'k', "♔"},
+        {'p', "♙"},
+        {' ', " "}
+        };
 
     // unicode characters to build border
     std::string upT = "┬";
@@ -75,19 +92,15 @@ public:
 
     // builds a chess row string
     std::string buildChessRow(int row) {
-        int i = row * 8;
-
         std::string rowString = "";
         if (haveLabels) {
             rowString += std::to_string(8 - row);
             rowString += " ";
         }
         rowString += vert;
-        for (int j = i; j < 8; j++) {
+        for (int j = 0; j < 8; j++) {
             rowString += std::string(padding, ' ');
-
-            // get piece from bitboards
-
+            rowString += pieces_unicode[pos.pieceAtPosition(row + 1, 'A' + j)];
             rowString += std::string(padding, ' ');
             rowString += vert;
         }
