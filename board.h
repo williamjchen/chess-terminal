@@ -100,7 +100,7 @@ public:
         rowString += vert;
         for (int j = 0; j < 8; j++) {
             rowString += std::string(padding, ' ');
-            rowString += pieces_unicode[pos.pieceAtPosition(row + 1, 'A' + j)];
+            rowString += pieces_unicode[pos.pieceAtPosition((8 - row), j + 1)];
             rowString += std::string(padding, ' ');
             rowString += vert;
         }

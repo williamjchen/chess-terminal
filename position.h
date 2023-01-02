@@ -40,10 +40,11 @@ public:
         }
 
         // 1. load piece positions
-        int row = 0, col = 1;
+        int row = 0, col = 0;
         for (char c: sections[0]) {
+            std::cout << c << std::endl;
             if (c == '/'){
-                col = 1;
+                col = 0;
                 row++;
                 continue;
             }
@@ -55,8 +56,9 @@ public:
                 int colour = piece & 0b1000; // or piece >> 3; // colour is int 0-1
                 int type = piece & 0b0111; // type is int 1-6
 
-                typeBB[colour] |= (1 << (64 - (row * 8 + col)));
-                colourBB[type - 1] |= (1 << (64 - (row * 8 + col)));
+                int index = fileRankToIndex(8 - row, col + 1);
+                typeBB[colour] |= index;
+                colourBB[type - 1] |= index;
 
                 col++;
             }
@@ -67,19 +69,27 @@ public:
         // 4. load en passant target square
     }
 
-    char pieceAtPosition(int rank, char file) {
-        int f = file - 'A';
-        int index = (8 - rank) * 8 + f;
+    char pieceAtPosition(int rank, int file) {
+        int index = fileRankToIndex(rank, file);
 
         int piece = 0, colour = 0;
         for (int i = 0; i < 6; i++) {
-            if (typeBB[i] & (1 << (64 - index + 1))) {
+            if (typeBB[i] & index) {
                 piece = i + 1;
             }
         }
-        colour = colourBB[0] & (1 << (64 - index + 1)) ? 0 : 1;
+        colour = colourBB[0] & index ? 0 : 1;
 
         if (piece == 0) return ' ';
         return pieceToChar[piece | (colour << 3)];
+    }
+
+    int fileRankToIndex(int rank, int file) {
+        return 1 << (64 - ((8 - rank) * 8 + (file - 1)) - 1);
+    }
+
+    int fileRankToIndex(int rank, char file) {
+        int fileInt = file - 'A' + 1;
+        return 1 << (64 - ((8 - rank) * 8 + (fileInt - 1)) - 1);
     }
 };

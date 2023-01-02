@@ -6,7 +6,7 @@ int main() {
     // int x, y;
     // std::string dest;
     // std::cin >> x >> y >> dest;
-    game.printBoard();
+    //game.printBoard();
     return 0;
 }
 
