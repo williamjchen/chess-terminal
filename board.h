@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "piece.h"
+#include "position.h"
 
 typedef uint64_t U64;
 

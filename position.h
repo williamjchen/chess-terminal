@@ -12,40 +12,22 @@ private:
     bool haveLabels = true;
     int padding;    
 
-    U64 WPawns, WKnight, WBishop, WRook, WQueen, WKing;
-    U64 BPawns, BKnight, BBishop, BRook, BQueen, BKing;
-
     U64 typeBB[6];
-    U64 colorBB[2];
+    U64 colourBB[2];
 
-    enum PieceType {
-        PAWN,
-        KNIGHT,
-        BISHOP,
-        ROOK,
-        QUEEN,
-        KING
-    };
-
-    enum color {
-        WHITE,
-        BLACK
-    };
-
-    std::string pieceToChar = " PNBRQK pnbrqk";
-
-    // unicode characters to build border
-    std::string upT = "┬";
-    std::string cross = "┼";
-    std::string botT = "┴";
-    std::string leftT = "├";
-    std::string rightT = "┤";
-    std::string leftBotEnd = "└";
-    std::string rightBotEnd = "┘";
-    std::string rightUpEnd = "┐";
-    std::string leftUpEnd = "┌";
-    std::string horiz = "─";
-    std::string vert = "│";
+    // white pawn - 1
+    // white knight - 2
+    // white bishop - 3
+    // white rook - 4
+    // white queen - 5
+    // white king - 6
+    // black pawn - 9
+    // black knight  - 10
+    // black bishop - 11
+    // black rook - 12
+    // black queen - 13
+    // black king - 14
+    std::string pieceToChar = " PNBRQK  pnbrqk";
 
 public:
     // loads FEN string position into bitboards
@@ -60,10 +42,10 @@ public:
         }
 
         // 1. load piece positions
-        int row = 0, col = 0;
+        int row = 0, col = 1;
         for (char c: sections[0]) {
             if (c == '/'){
-                col = 0;
+                col = 1;
                 row++;
                 continue;
             }
@@ -71,6 +53,13 @@ public:
             if (isdigit(c)) {
                 col += c - '0';
             } else {
+                int piece = pieceToChar.find(c);
+                int colour = piece & 0b1000; // or piece >> 3; // colour is int 0-1
+                int type = piece & 0b0111; // type is int 1-6
+
+                typeBB[colour] |= (1 << (64 - (row * 8 + col)));
+                colourBB[type - 1] |= (1 << (64 - (row * 8 + col)));
+
                 col++;
             }
         }
