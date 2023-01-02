@@ -42,7 +42,6 @@ public:
         // 1. load piece positions
         int row = 0, col = 0;
         for (char c: sections[0]) {
-            std::cout << c << std::endl;
             if (c == '/'){
                 col = 0;
                 row++;
@@ -56,22 +55,21 @@ public:
                 int colour = piece >> 3;// colour is int 0-1
                 int type = piece & 0b0111; // type is int 1-6
 
-                int index = fileRankToIndex(8 - row, col + 1);
+                U64 index = fileRankToIndex(8 - row, col + 1);
+
                 colourBB[colour] |= index;
                 typeBB[type - 1] |= index;
 
                 col++;
             }
         }
-
-        std::cout << colourBB[1] << std::endl;
         // 2. load active color
         // 3. load castling availability
         // 4. load en passant target square
     }
 
     char pieceAtPosition(int rank, int file) {
-        int index = fileRankToIndex(rank, file);
+        U64 index = fileRankToIndex(rank, file);
 
         int piece = 0, colour = 0;
         for (int i = 0; i < 6; i++) {
@@ -85,11 +83,12 @@ public:
         return pieceToChar[piece | (colour << 3)];
     }
 
-    int fileRankToIndex(int rank, int file) {
+    U64 fileRankToIndex(int rank, int file) {
+        //std::cout << rank << " " << file << " " << (1ULL << (64 - ((8 - rank) * 8 + (file - 1)) - 1)) << std::endl;
         return 1ULL << (64 - ((8 - rank) * 8 + (file - 1)) - 1);
     }
 
-    int fileRankToIndex(int rank, char file) {
+    U64 fileRankToIndex(int rank, char file) {
         int fileInt = file - 'A' + 1;
         return 1ULL << (64 - ((8 - rank) * 8 + (fileInt - 1)) - 1);
     }
