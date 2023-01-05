@@ -33,3 +33,6 @@
 
 # MAC
 *.DS_Store
+
+# VScode
+.vscode
