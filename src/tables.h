@@ -5,6 +5,7 @@ namespace Tables
     void init();
     void generatePawnAttackTable();
     void generateKnightAttackTable();
+    void generateKingAttackTable();
 
 	const U64 ALL = 0xffffffffffffffff;
     const U64 MASK_RANK[]={0xFF,
@@ -59,4 +60,6 @@ namespace Tables
     U64 PAWN_ATTACK[2][64];
 
     U64 KNIGHT_ATTACK[64];
+
+    U64 KING_ATTACK[64];
 }
