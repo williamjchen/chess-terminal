@@ -1,8 +1,11 @@
-#include "position.h"
-
+#include <map>
+typedef uint64_t U64;
 namespace Tables
 {
     void init();
+    void generatePawnAttackTable();
+    void generateKnightAttackTable();
+
 	const U64 ALL = 0xffffffffffffffff;
     const U64 MASK_RANK[]={0xFF,
                             0xFF00,
@@ -54,4 +57,6 @@ namespace Tables
                                 0x4040404040404040};
 
     U64 PAWN_ATTACK[2][64];
+
+    U64 KNIGHT_ATTACK[64];
 }
