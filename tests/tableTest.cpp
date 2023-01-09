@@ -3,5 +3,5 @@
 
 int main () {
     Tables::init();
-    std::cout << Tables::PAWN_ATTACK[0][37] << std::endl;
+    std::cout << Tables::KNIGHT_ATTACK[27] << std::endl;
 }

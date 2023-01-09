@@ -9,3 +9,6 @@ Play Chess in your Terminal
 
 ## WIP
 ### TODO:
+
+## Cool Resources:
+- [Bitboard Calculator](https://gekomad.github.io/Cinnamon/BitboardCalculator/)
